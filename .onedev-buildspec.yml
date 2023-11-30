@@ -1,0 +1,19 @@
+version: 25
+jobs:
+- name: Pull From Source
+  steps:
+  - !PullRepository
+    name: Pull from Github
+    remoteUrl: https://github.com/castles-fergus/onedev-test-pull-sync
+    syncToChildProject: false
+    refs: refs/heads/* refs/tags/*
+    withLfs: false
+    force: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !ScheduleTrigger
+    cronExpression: 0 */5 * * * ?
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
